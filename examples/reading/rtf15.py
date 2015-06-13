@@ -1,3 +1,5 @@
+from __future__ import absolute_import
+from __future__ import print_function
 import sys
 import os.path
 
@@ -14,4 +16,4 @@ else:
 
 doc = Rtf15Reader.read(open(filename, "rb"))
 
-print XHTMLWriter.write(doc, pretty=True).read()
+print(XHTMLWriter.write(doc, pretty=True).read())

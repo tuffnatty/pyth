@@ -6,11 +6,13 @@ http://www.biblioscape.com/rtf15_spec.htm
 This module is potentially compatible with RTF versions up to 1.9.1,
 but may not ignore all necessary control groups.
 """
+from __future__ import absolute_import
 import string, re, itertools, struct
 
 from pyth import document
 from pyth.format import PythReader
 from pyth.encodings import symbol
+import six
 
 _CONTROLCHARS = set(string.ascii_letters + string.digits + "-*")
 _DIGITS = set(string.digits + "-")
@@ -543,7 +545,7 @@ class Group(object):
     def handle_control_symbol(self, symbol):
         # Ignore ~, -, and _, since they are optional crap.
         if symbol in '\\{}':
-            self.content.append(unicode(symbol))
+            self.content.append(six.text_type(symbol))
 
 
     def handle_u(self, codepoint):

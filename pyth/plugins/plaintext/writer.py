@@ -1,6 +1,7 @@
 """
 Render documents as plaintext.
 """
+from __future__ import absolute_import
 
 from pyth import document
 from pyth.format import PythWriter

@@ -1,8 +1,11 @@
 """ 
 Maps Symbol typeface to Unicode, extracted from http://en.wikipedia.org/wiki/Symbol_(typeface)
 """
+from __future__ import absolute_import
 
 import codecs
+import six
+from six.moves import map
 
 decodeTable = {
     33: 33, 34: 8704, 35: 35, 36: 8707, 37: 37, 38: 38, 39: 8717, 40: 40, 41: 41, 42: 42, 43: 43, 44: 44, 45: 45, 46: 46,
@@ -22,7 +25,7 @@ decodeTable = {
     235: 9123, 236: 9127, 237: 9128, 238: 9129, 239: 9130, 241: 12297, 242: 8747, 243: 8992, 244: 9134, 245: 8993, 246: 9118,
     247: 9119, 248: 9120, 249: 9124, 250: 9125, 251: 9126, 252: 9131, 253: 9132, 254: 9133}
 
-encodeTable = dict((v, k) for (k, v) in decodeTable.iteritems())
+encodeTable = dict((v, k) for (k, v) in six.iteritems(decodeTable))
 
 ERROR_STRING = "Ordinal not in range (255)"
 

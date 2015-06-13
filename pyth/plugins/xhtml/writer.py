@@ -1,6 +1,7 @@
 """
 Render documents as XHTML fragments
 """
+from __future__ import absolute_import
 
 
 
@@ -8,6 +9,7 @@ from pyth import document
 from pyth.format import PythWriter
 
 from cStringIO import StringIO
+import six
 
 
 _tagNames = {
@@ -160,7 +162,7 @@ class Tag(object):
     def attrString(self):
         return " ".join(
             '%s="%s"' % (k, quoteAttr(v))
-            for (k, v) in self.attrs.iteritems())
+            for (k, v) in six.iteritems(self.attrs))
             
 
     def __repr__(self):
