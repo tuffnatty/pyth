@@ -54,3 +54,25 @@ the tests directory and invoke nosetest from there (make sure that
 pyth module is in PYTHONPATH).
 
 .. _python nose: http://code.google.com/p/python-nose/
+
+
+Python 3 migration
+==================
+
+The code was originally written for Python 2.
+It has been upgraded to Python 3 compatibility via 'modernize'.
+This does not mean it will actually work!
+
+pyth.plugins.rtf15.reader has been debugged and appears to work correctly.
+pyth.plugins.xhtml.writer has been debugged and appears to work correctly.
+Everything else: unknown!
+See directory py3migration for a bit more detail.
+
+
+Limitations
+===========
+
+pyth.plugins.rtf15.reader: bulleted or enumerated items will be returned
+as plain paragraphs (no indentation, no bullets).
+
+Other: (to be documented)

@@ -1,0 +1,32 @@
+as of 2015-06-28:
+
+I have made the code nearly python2/python3-duocompatible by calling
+python-modernize.
+Comitted.
+
+I have inserted requires = ['six'] into setup.py
+Not committed.
+
+I have then repaired many of the bytes-vs-str issues in 
+pyth\plugins\rtf15\reader.py.
+Dito for pyth\plugins\xhtml\writer.py.
+The former in particular was tricky because most strings have to be handled
+as bytestrings -- but not all of them.
+See  http://pythonhosted.org/six/
+
+These two now appear to work for ASCII and 8-bit non-ASCII characters in the RTF file,
+at least for a simple RTF file.
+Complex files and true Unicode remains to be seen.
+
+TO DO:
+
+Establish a set of system-level test cases,
+with various input files with the relevant RTF features
+(paragraphs, line breaks, page breaks, various characters, fonts,
+ bold, italics, underline, hyperlink)
+and coming from MS Word, Wordpad, OpenOffice.
+
+Introduce proper handling of itemized lists (well, that is a
+new feature actually).
+
+Debug the other plugins.

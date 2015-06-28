@@ -3,12 +3,9 @@ Render documents as XHTML fragments
 """
 from __future__ import absolute_import
 
-
-
 from pyth import document
 from pyth.format import PythWriter
 
-from cStringIO import StringIO
 import six
 
 
@@ -24,7 +21,7 @@ class XHTMLWriter(PythWriter):
     @classmethod
     def write(klass, document, target=None, cssClasses=True, pretty=False):
         if target is None:
-            target = StringIO()
+            target = six.BytesIO()
 
         writer = XHTMLWriter(document, target, cssClasses, pretty)
         final = writer.go()
@@ -145,18 +142,20 @@ class Tag(object):
             attrString = self.attrString()
             if attrString:
                 attrString = " " + attrString
-            target.write('<%s%s>' % (self.tag, attrString))
+            target.write(('<%s%s>' % (self.tag, attrString)).encode("utf-8"))
 
         for c in self.content:
             if isinstance(c, Tag):
                 c.render(target)
             elif c is _prettyBreak:
-                target.write('\n')
+                target.write(b'\n')
             else:
-                target.write(quoteText(c).encode("utf-8").replace('\n', '<br />'))
+                if type(c) != six.text_type:
+                    c = six.text_type(c)
+                target.write(quoteText(c).encode("utf-8").replace(b'\n', b'<br />'))
 
         if self.tag is not None:
-            target.write('</%s>' % self.tag)
+            target.write(('</%s>' % self.tag).encode("utf-8"))
         
 
     def attrString(self):
