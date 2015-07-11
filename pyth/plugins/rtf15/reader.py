@@ -164,19 +164,21 @@ class Rtf15Reader(PythReader):
         current = chars  # what part we are reading
         first = True     # true during first char only
         while True:
-            next = self.source.read(1)
+            next = self.source.read(1)  # str in Python 2, bytes in Python 3
 
             if not next:
                 break
 
             if first and next in b'\\{}':
-                chars.extend(b"control_symbol")
+                #chars.extend(b"control_symbol")
+                chars.append(b"control_symbol")
                 digits.append(next)
                 break
 
             if first and next in b'\r\n':
                 # Special-cased in RTF, equivalent to a \par
-                chars.extend(b"par")
+                #chars.extend(b"par")
+                chars.append(b"par")
                 break
 
             first = False
@@ -563,8 +565,10 @@ class Group(object):
 
     def handle_control_symbol(self, symbol):
         # Ignore ~, -, and _, since they are optional crap.
-        if symbol in '\\{}':
-            self.content.append(six.text_type(symbol))
+        assert len(symbol) == 1
+        if symbol in b'\\{}':
+            #self.content.append(six.text_type(symbol))
+            self.content.append(symbol.decode("ascii"))
 
 
     def handle_u(self, codepoint):

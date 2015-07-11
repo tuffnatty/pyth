@@ -180,3 +180,14 @@ def quoteAttr(text):
     return quoteText(text).replace(
         u'"', u"&quot;").replace(
         u"'", u"&apos;")
+
+
+def write_html_file(filename, bytescontent, print_msg=True):
+    # used in examples and in tests
+    with open(filename, "wb") as out:
+        out.write(b"<!DOCTYPE html>\n")
+        out.write(b"<html><head><meta charset='utf-8' /></head><body>\n")
+        out.write(bytescontent)
+        out.write(b"\n</body></html>")
+    if print_msg:
+        print("##### wrote RTF as XHTML to", filename)
