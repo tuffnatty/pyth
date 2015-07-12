@@ -120,20 +120,20 @@ class Rtf15Reader(PythReader):
 
     def parse(self):
         while True:
-            next = self.source.read(1)
+            nextbyte = self.source.read(1)
 
-            if not next:
+            if not nextbyte:
                 break
 
-            if next in b'\r\n':
+            if nextbyte in b'\r\n':
                 continue
-            if next == b'{':
+            if nextbyte == b'{':
                 subGroup = Group(self, self.group, self.charsetTable)
                 self.stack.append(subGroup)
                 subGroup.skip = self.group.skip
                 self.group.flushChars()
                 self.group = subGroup
-            elif next == b'}':
+            elif nextbyte == b'}':
                 subGroup = self.stack.pop()
                 self.group = self.stack[-1]
                 if self.group.specialMeaning == 'FONT_TABLE':
@@ -149,61 +149,55 @@ class Rtf15Reader(PythReader):
                 # inside groups we don't care about anyway
                 continue
 
-            elif next == b'\\':
+            elif nextbyte == b'\\':
                 control, digits = self.getControl()
                 self.group.handle(control, digits)
-            elif next == b';':
-                self.group.char(next)  # within-group text
             else:
-                self.group.char(next)  # within-group text
+                self.group.char(nextbyte)  # within-group text
 
 
     def getControl(self):
         chars = []  # for output 1
         digits = [] # for output 2
         current = chars  # what part we are reading
-        first = True     # true during first char only
+        is_first = True  # true during first char only
         while True:
-            next = self.source.read(1)  # str in Python 2, bytes in Python 3
+            nextbyte = self.source.read(1)  # str in Python 2, bytes in Python 3
 
-            if not next:
+            if not nextbyte:
                 break
 
-            if first and next in b'\\{}':
-                #chars.extend(b"control_symbol")
+            if is_first and nextbyte in b'\\{}':
                 chars.append(b"control_symbol")
-                digits.append(next)
+                digits.append(nextbyte)
                 break
 
-            if first and next in b'\r\n':
+            if is_first and nextbyte in b'\r\n':
                 # Special-cased in RTF, equivalent to a \par
-                #chars.extend(b"par")
                 chars.append(b"par")
                 break
 
-            first = False
+            is_first = False
 
-            if next == b"'":
+            if nextbyte == b"'":
                 # ANSI escape, takes two hex digits
-                #chars.extend(b"ansi_escape")
                 chars.append(b"ansi_escape")
-                #digits.extend(self.source.read(2))
                 digits.append(self.source.read(2))
                 break
 
-            if next == b' ':
+            if nextbyte == b' ':
                 # Don't rewind, the space is just a delimiter
                 break
 
-            if next not in _CONTROLCHARS:
+            if nextbyte not in _CONTROLCHARS:
                 # Rewind, it's a meaningful character
                 self.source.seek(-1, 1)
                 break
 
-            if next in _DIGITS:
+            if nextbyte in _DIGITS:
                 current = digits
 
-            current.append(next)
+            current.append(nextbyte)
 
         return b"".join(chars), b"".join(digits)
 
