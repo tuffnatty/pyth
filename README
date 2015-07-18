@@ -74,7 +74,15 @@ either fix it or stick to pyth version 0.6.0.)
 Limitations
 ===========
 
-pyth.plugins.rtf15.reader: bulleted or enumerated items will be returned
-as plain paragraphs (no indentation, no bullets).
+pyth.plugins.rtf15.reader:
+- bulleted or enumerated items will be returned
+  as plain paragraphs (no indentation, no bullets).
+- cannot cope with Symbol font correctly:
+  - from MS Word: lower-coderange characters (greek mostly) work
+  - from MS Word: higher-coderange characters are missing, because
+    Word encodes them in a horribly complicated manner not supported
+    by pyth currently
+  - from Wordpad: lower- and higher-coderange characters come out in
+    the wrong encoding (ANSI, I think)
 
 Other: (to be documented)
