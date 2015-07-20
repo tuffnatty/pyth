@@ -16,5 +16,9 @@ with respect to the current implementation expectation.
 Test runs will create corresponding output and compare the
 file contents.
 
+For tests that fail (i.e. where the visual inspection finds
+relevant differences), the file deposited here is empty.
+
 See the top-level README for current limitations.
+Anything documented there is no longer considered a failure.
 

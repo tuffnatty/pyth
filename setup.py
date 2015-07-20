@@ -2,7 +2,7 @@ from __future__ import absolute_import
 from setuptools import setup, find_packages
 
 setup(name="pyth",
-      version="0.7.0",
+      version="0.7.dev77",
       packages = find_packages(),
       zip_safe = False,
 
