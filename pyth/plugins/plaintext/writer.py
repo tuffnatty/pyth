@@ -6,22 +6,23 @@ from __future__ import absolute_import
 from pyth import document
 from pyth.format import PythWriter
 
-from cStringIO import StringIO
+from io import StringIO
 
 class PlaintextWriter(PythWriter):
 
     @classmethod
-    def write(klass, document, target=None, newline="\n"):
+    def write(klass, document, target=None, encoding="utf-8", newline="\n"):
         if target is None:
             target = StringIO()
 
-        writer = PlaintextWriter(document, target, newline)
+        writer = PlaintextWriter(document, target, encoding, newline.encode(encoding))
         return writer.go()
 
 
-    def __init__(self, doc, target, newline):
+    def __init__(self, doc, target, encoding, newline):
         self.document = doc
         self.target = target
+        self.encoding = encoding
         self.newline = newline
         self.indent = -1
         self.paragraphDispatch = {
@@ -34,7 +35,7 @@ class PlaintextWriter(PythWriter):
         for (i, paragraph) in enumerate(self.document.content):
             handler = self.paragraphDispatch[paragraph.__class__]
             handler(paragraph)
-            self.target.write("\n")
+            self.target.write(self.newline)
 
         # Heh heh, remove final paragraph spacing
         self.target.seek(-2, 1)
@@ -48,13 +49,13 @@ class PlaintextWriter(PythWriter):
         content = []
         for text in paragraph.content:
             content.append(u"".join(text.content))
-        content = u"".join(content).encode("utf-8")
+        content = u"".join(content).encode(self.encoding)
             
-        for line in content.split("\n"):
-            self.target.write("  " * self.indent)
-            self.target.write(prefix)
+        for line in content.splitlines():
+            self.target.write("  ".encode(self.encoding) * self.indent)
+            self.target.write(prefix.encode(self.encoding))
             self.target.write(line)
-            self.target.write("\n")
+            self.target.write(self.newline)
             if prefix: prefix = "  "
 
 
