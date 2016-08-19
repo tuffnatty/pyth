@@ -15,7 +15,7 @@ class PlaintextWriter(PythWriter):
         if target is None:
             target = StringIO()
 
-        writer = PlaintextWriter(document, target, encoding, newline.encode(encoding))
+        writer = PlaintextWriter(document, target, encoding, newline)
         return writer.go()
 
 
@@ -32,13 +32,13 @@ class PlaintextWriter(PythWriter):
 
 
     def go(self):
+        np = len(self.document.content)
         for (i, paragraph) in enumerate(self.document.content):
             handler = self.paragraphDispatch[paragraph.__class__]
             handler(paragraph)
-            self.target.write(self.newline)
+            if i < np - 1:
+                self.target.write(self.newline)
 
-        # Heh heh, remove final paragraph spacing
-        self.target.seek(-2, 1)
         self.target.truncate()
 
         self.target.seek(0)
@@ -48,12 +48,12 @@ class PlaintextWriter(PythWriter):
     def paragraph(self, paragraph, prefix=""):
         content = []
         for text in paragraph.content:
-            content.append(u"".join(text.content))
-        content = u"".join(content).encode(self.encoding)
-            
+            content.append("".join(text.content))
+        content = "".join(content)
+
         for line in content.splitlines():
-            self.target.write("  ".encode(self.encoding) * self.indent)
-            self.target.write(prefix.encode(self.encoding))
+            self.target.write("  " * self.indent)
+            self.target.write(prefix)
             self.target.write(line)
             self.target.write(self.newline)
             if prefix: prefix = "  "
@@ -61,7 +61,7 @@ class PlaintextWriter(PythWriter):
 
     def list(self, list, prefix=None):
         self.indent += 1
-        for (i, entry) in enumerate(list.content):           
+        for (i, entry) in enumerate(list.content):
             for (j, paragraph) in enumerate(entry.content):
                 prefix = "* " if j == 0 else "  "
                 handler = self.paragraphDispatch[paragraph.__class__]
@@ -71,4 +71,4 @@ class PlaintextWriter(PythWriter):
 
 
 
-            
+
