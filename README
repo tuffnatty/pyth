@@ -65,6 +65,7 @@ This does not mean it will actually work!
 
 pyth.plugins.rtf15.reader has been debugged and now appears to work correctly.
 pyth.plugins.xhtml.writer has been debugged and now appears to work correctly.
+pyth.plugins.plaintext.writer has been debugged and now appears to work correctly.
 Everything else: unknown!
 See directory py3migration for a bit more detail.
 (If you find something is broken that worked before, please
