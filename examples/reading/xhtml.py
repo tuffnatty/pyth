@@ -6,7 +6,7 @@ from pyth.plugins.xhtml.reader import XHTMLReader
 from pyth.plugins.xhtml.writer import XHTMLWriter
 import xhtml
 
-from cStringIO import StringIO
+from six import StringIO
 
 # A simple xhtml document with limited features.
 content = StringIO(r"""

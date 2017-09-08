@@ -6,7 +6,7 @@ reStructuredText writer output.
 """
 from __future__ import absolute_import
 
-from cStringIO import StringIO
+from six import StringIO
 import docutils.core
 
 from pyth import document

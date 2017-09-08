@@ -3,7 +3,7 @@ Render documents as Reportlab PDF stories
 """
 from __future__ import absolute_import
 
-from cStringIO import StringIO
+from six import StringIO
 import cgi # For escape()
 
 from pyth import document

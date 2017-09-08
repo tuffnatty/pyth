@@ -1,12 +1,14 @@
 """
 Render documents as plaintext.
+Very scruffy and not very powerful.
+Should probably be modified to generate markdown syntax.
 """
 from __future__ import absolute_import
 
 from pyth import document
 from pyth.format import PythWriter
 
-from io import StringIO
+from six import StringIO
 
 class PlaintextWriter(PythWriter):
 

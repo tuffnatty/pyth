@@ -8,8 +8,8 @@ import unittest
 import subprocess
 import tempfile
 import os
-import sys
-import BeautifulSoup
+
+from bs4 import BeautifulSoup
 
 from pyth.plugins.pdf.writer import PDFWriter
 from pyth.plugins.python.reader import *
@@ -66,7 +66,7 @@ class TestWritePDF(unittest.TestCase):
         doc = PythonReader.read([P[T(BOLD)[u"bold text"]]])
         pdf = PDFWriter.write(doc).getvalue()
         html = self.pdf_to_html(pdf)
-        soup = BeautifulSoup.BeautifulSoup(html)
+        soup = BeautifulSoup(html)
         node = soup.find("b")
         assert node
         assert node.string == "bold text"
@@ -75,7 +75,7 @@ class TestWritePDF(unittest.TestCase):
         doc = PythonReader.read([P[T(ITALIC)[u"italic text"]]])
         pdf = PDFWriter.write(doc).getvalue()
         html = self.pdf_to_html(pdf)
-        soup = BeautifulSoup.BeautifulSoup(html)
+        soup = BeautifulSoup(html)
         node = soup.find("i")
         assert node
         assert node.string == "italic text"

@@ -15,18 +15,16 @@ Pyth is intended to make it easy to convert marked-up text between different com
 * Very little else
 
 
-Formats I initially want to support are:
+Formats that have (very varying) degrees of support are
 
+* plain text
 * xhtml
 * rtf
-* pdf (output)
+* pdf (output only)
 
 
-These three formats cover web, Word / OpenOffice, and print. 
-
-
-Design principles
-=================
+Design principles/goals
+=======================
 
 * Ignore unsupported information in input formats (e.g. page layout)
 * Ignore font issues -- output in a single font.
@@ -60,16 +58,17 @@ Python 3 migration
 ==================
 
 The code was originally written for Python 2.
-It has been upgraded to Python 3 compatibility via 'modernize'.
+It has been partially(!) upgraded to Python 3 compatibility (starting via 'modernize').
 This does not mean it will actually work!
 
 pyth.plugins.rtf15.reader has been debugged and now appears to work correctly.
 pyth.plugins.xhtml.writer has been debugged and now appears to work correctly.
 pyth.plugins.plaintext.writer has been debugged and now appears to work correctly.
-Everything else: unknown!
+Everything else is unknown (or definitely broken on Python 3: even many
+of the tests fail)
 See directory py3migration for a bit more detail.
-(If you find something is broken that worked before, please
-either fix it or stick to pyth version 0.6.0.)
+(If you find something is broken on Python 2 that worked before, please
+either fix it or simply stick to pyth version 0.6.0.)
 
 
 Limitations
@@ -86,4 +85,11 @@ pyth.plugins.rtf15.reader:
   - from Wordpad: lower- and higher-coderange characters come out in
     the wrong encoding (ANSI, I think)
 
-Other: (to be documented)
+pyth.plugins.xhtml.writer:
+- very limited functionality
+
+pyth.plugins.plaintext.writer:
+- very very limited functionality
+
+Others: 
+- will not work on Python 3 without some porting love-and-care

@@ -8,7 +8,7 @@ from __future__ import absolute_import
 from pyth import document
 from pyth.format import PythWriter
 
-from cStringIO import StringIO
+from six import StringIO
 import six
 from six.moves import range
 
@@ -237,9 +237,9 @@ class Rtf15Writer(PythWriter):
         props = []
 
         if 'super' in text.properties:
-            self.target.write('{\up9 ')
+            self.target.write(r'{\up9 ')
         elif 'sub' in text.properties:
-            self.target.write('{\dn9 ')
+            self.target.write(r'{\dn9 ')
 
         for prop in text.properties:
             if prop in _styleFlags:
