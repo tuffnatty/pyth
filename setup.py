@@ -2,7 +2,7 @@ from __future__ import absolute_import
 from setuptools import setup, find_packages
 
 setup(name="pyth",
-      version="0.7.dev77",
+      version="0.7",
       packages = find_packages(),
       zip_safe = False,
 
@@ -16,8 +16,6 @@ setup(name="pyth",
         "Development Status :: 5 - Production/Stable",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: MIT License",
-        "Programming Language :: Python :: 2.5",
-        "Programming Language :: Python :: 2.6",
         "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3",
         "Topic :: Office/Business",
@@ -29,6 +27,7 @@ setup(name="pyth",
       ],
 
       requires = [
-        "six",
+          "beautifulsoup4",
+          "six",
       ],
 )

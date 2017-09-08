@@ -40,19 +40,6 @@ Examples
 See http://github.com/brendonh/pyth/tree/master/examples/
 
 
-Unit tests
-==========
-
-The sources contains some unit tests (written using python unittest
-module) in the 'tests' directory.
-
-To run the tests we can either run them individually as python script,
-either use `python nose`_.  If using nose then we just need to go into
-the tests directory and invoke nosetest from there (make sure that
-pyth module is in PYTHONPATH).
-
-.. _python nose: http://code.google.com/p/python-nose/
-
 
 Python 3 migration
 ==================
@@ -93,3 +80,28 @@ pyth.plugins.plaintext.writer:
 
 Others: 
 - will not work on Python 3 without some porting love-and-care
+
+
+Tests
+=====
+
+Don't try to run them all, it's frustrating.
+`py.test -v test_readrtf15.py` is a good way to run the least frustrating 
+subset of them.
+It is normal that most others will fail on Python 3.
+`test_readrtf15.py` generates test cases dynamically based on
+existing input files in `tests/rtfs` and
+existing reference output files in `tests/rtf-as-html` and `tests/rtf-as-html`.
+The empty or missing output files indicate where functionality is missing,
+which nicely indicates possible places to jump in if you want to help.
+
+
+Dependencies
+============
+
+Only the most important two of the dependencies,
+are actually declared in `setup.py`, because the others are large, yet
+are required only in pyth components not yet ported to Python 3. 
+They are:
+- `reportlab` for PDFWriter
+- `docutils` for LatexWriter 
