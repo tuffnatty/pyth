@@ -1,4 +1,3 @@
-========================================
 pyth - Python text markup and conversion
 ========================================
 
@@ -17,10 +16,10 @@ Pyth is intended to make it easy to convert marked-up text between different com
 
 Formats that have (very varying) degrees of support are
 
-* plain text
-* xhtml
-* rtf
-* pdf (output only)
+* Plain text
+* XHTML
+* RTF (Rich Text Format)
+* PDF (output only)
 
 
 Design principles/goals

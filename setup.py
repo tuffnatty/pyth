@@ -9,8 +9,8 @@ setup(name="pyth",
       description="Python text markup and conversion",
       author="Brendon Hogger",
       author_email="brendonh@gmail.com",
-      url="http://wiki.github.com/brendonh/pyth",
-      long_description=open('README').read(),
+      url="http://github.com/prechelt/pyth",
+      long_description=open('README.md').read(),
 
       classifiers = [
         "Development Status :: 5 - Production/Stable",
