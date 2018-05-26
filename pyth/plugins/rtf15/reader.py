@@ -152,6 +152,14 @@ class Rtf15Reader(PythReader):
             elif nextbyte == b'\\':
                 control, digits = self.getControl()
                 self.group.handle(control, digits)
+
+                # '\binN #BDATA' is considered a single character as per spec.
+                # It also must skip decoding, so it's best to handle it here
+                if control == b'bin':
+                    self.group.flushChars()
+                    self.group.content.append(self.source.read(int(digits)))
+                    continue
+
             else:
                 self.group.char(nextbyte)  # within-group text
 
@@ -237,8 +245,9 @@ class DocBuilder(object):
         
         if self.isImage:
             self.block.content.append(
-                document.Image(self.propStack[-1].copy(),
-                               [b"".join(self.run)]))
+                document.Image({prop: value for prop, value in self.propStack[-1].items()
+                                if prop not in document.Text.validProperties},
+                               [b"".join(bdata for bdata in self.run if bdata)]))
             self.isImage = False
         else:
             self.block.content.append(
@@ -309,6 +318,11 @@ class DocBuilder(object):
 
     def handle_str(self, bit):
         # text strings in Python 3
+        self.run.append(bit)
+
+
+    def handle_bytes(self, bit):
+        # Binary data in Python 3
         self.run.append(bit)
 
 
@@ -421,7 +435,7 @@ class Group(object):
                                       b'picw', b'pich', b'picwgoal', b'pichgoal', b'picscalex', b'picscaley',
                                       b'picscaled', b'piccropt', b'piccropb', b'piccropr', b'piccropl', b'picbmp',
                                       b'picbpp', b'bin', b'blipupi', b'blipuid', b'bliptag', b'wbitmap']:
-            self.content.append(ImageMarker(control, digits))
+            self.content.append(ImageMarker(control.decode('ascii'), digits))
             return
 
         handler = getattr(self, 'handle_%s' % control.decode('ascii'), None)
